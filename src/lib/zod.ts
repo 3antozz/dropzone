@@ -1,0 +1,28 @@
+import * as z from "zod/v4"; 
+
+export type State = {
+    message: string,
+    errors?: {
+        email?: string[],
+        password?: string[],
+        confirm?: string[]
+    },
+    redirectTo?: string
+}
+
+export const signUpSchema = z.object({
+    email: z.email("Invalid email").trim(),
+    password: z.string().trim()
+        .min(6, "Password must be atleast 6 characters")
+        .max(32, "Password must be less than 32 characters").trim(),
+    confirm: z.string().trim()
+}).refine((data) => data.confirm === data.password, {
+            error: "Passwords don't match",
+            path: ["confirm"]})
+
+export const signInSchema = z.object({
+    email: z.email("Invalid email").trim(),
+    password: z.string().trim()
+        .min(6, "Password must be atleast 6 characters")
+        .max(32, "Password must be less than 32 characters").trim(),
+})
