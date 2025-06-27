@@ -1016,6 +1016,7 @@ export namespace Prisma {
     password: string | null
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
+    createdAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1024,6 +1025,7 @@ export namespace Prisma {
     password: string | null
     twoFactorEnabled: boolean | null
     twoFactorSecret: string | null
+    createdAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1032,6 +1034,7 @@ export namespace Prisma {
     password: number
     twoFactorEnabled: number
     twoFactorSecret: number
+    createdAt: number
     _all: number
   }
 
@@ -1050,6 +1053,7 @@ export namespace Prisma {
     password?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
+    createdAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1058,6 +1062,7 @@ export namespace Prisma {
     password?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
+    createdAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1066,6 +1071,7 @@ export namespace Prisma {
     password?: true
     twoFactorEnabled?: true
     twoFactorSecret?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -1161,6 +1167,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled: boolean
     twoFactorSecret: string | null
+    createdAt: Date
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1188,6 +1195,7 @@ export namespace Prisma {
     password?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
+    createdAt?: boolean
     dropoffs?: boolean | User$dropoffsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1198,6 +1206,7 @@ export namespace Prisma {
     password?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1206,6 +1215,7 @@ export namespace Prisma {
     password?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1214,9 +1224,10 @@ export namespace Prisma {
     password?: boolean
     twoFactorEnabled?: boolean
     twoFactorSecret?: boolean
+    createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "twoFactorEnabled" | "twoFactorSecret", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "twoFactorEnabled" | "twoFactorSecret" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     dropoffs?: boolean | User$dropoffsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1235,6 +1246,7 @@ export namespace Prisma {
       password: string
       twoFactorEnabled: boolean
       twoFactorSecret: string | null
+      createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1664,6 +1676,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly twoFactorEnabled: FieldRef<"User", 'Boolean'>
     readonly twoFactorSecret: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -3243,7 +3256,8 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     twoFactorEnabled: 'twoFactorEnabled',
-    twoFactorSecret: 'twoFactorSecret'
+    twoFactorSecret: 'twoFactorSecret',
+    createdAt: 'createdAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3327,20 +3341,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -3351,6 +3351,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -3366,6 +3380,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     twoFactorEnabled?: BoolFilter<"User"> | boolean
     twoFactorSecret?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
     dropoffs?: DropoffListRelationFilter
   }
 
@@ -3375,6 +3390,7 @@ export namespace Prisma {
     password?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     dropoffs?: DropoffOrderByRelationAggregateInput
   }
 
@@ -3387,6 +3403,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     twoFactorEnabled?: BoolFilter<"User"> | boolean
     twoFactorSecret?: StringNullableFilter<"User"> | string | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
     dropoffs?: DropoffListRelationFilter
   }, "id" | "email">
 
@@ -3396,6 +3413,7 @@ export namespace Prisma {
     password?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -3412,6 +3430,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     twoFactorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
     twoFactorSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type DropoffWhereInput = {
@@ -3486,6 +3505,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
+    createdAt?: Date | string
     dropoffs?: DropoffCreateNestedManyWithoutUserInput
   }
 
@@ -3495,6 +3515,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
+    createdAt?: Date | string
     dropoffs?: DropoffUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -3503,6 +3524,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dropoffs?: DropoffUpdateManyWithoutUserNestedInput
   }
 
@@ -3512,6 +3534,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dropoffs?: DropoffUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -3521,6 +3544,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
+    createdAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -3528,6 +3552,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -3536,6 +3561,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DropoffCreateInput = {
@@ -3650,6 +3676,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type DropoffListRelationFilter = {
     every?: DropoffWhereInput
     some?: DropoffWhereInput
@@ -3671,6 +3708,7 @@ export namespace Prisma {
     password?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -3683,6 +3721,7 @@ export namespace Prisma {
     password?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -3691,6 +3730,7 @@ export namespace Prisma {
     password?: SortOrder
     twoFactorEnabled?: SortOrder
     twoFactorSecret?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -3757,6 +3797,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -3766,17 +3820,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type UserScalarRelationFilter = {
@@ -3844,20 +3887,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type DropoffCreateNestedManyWithoutUserInput = {
     create?: XOR<DropoffCreateWithoutUserInput, DropoffUncheckedCreateWithoutUserInput> | DropoffCreateWithoutUserInput[] | DropoffUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DropoffCreateOrConnectWithoutUserInput | DropoffCreateOrConnectWithoutUserInput[]
@@ -3882,6 +3911,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type DropoffUpdateManyWithoutUserNestedInput = {
@@ -3934,10 +3967,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type UserUpdateOneRequiredWithoutDropoffsNestedInput = {
     create?: XOR<UserCreateWithoutDropoffsInput, UserUncheckedCreateWithoutDropoffsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDropoffsInput
@@ -3988,6 +4017,17 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -4070,7 +4110,7 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4078,7 +4118,10 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -4095,20 +4138,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type DropoffCreateWithoutUserInput = {
@@ -4172,6 +4201,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
+    createdAt?: Date | string
   }
 
   export type UserUncheckedCreateWithoutDropoffsInput = {
@@ -4180,6 +4210,7 @@ export namespace Prisma {
     password: string
     twoFactorEnabled?: boolean
     twoFactorSecret?: string | null
+    createdAt?: Date | string
   }
 
   export type UserCreateOrConnectWithoutDropoffsInput = {
@@ -4203,6 +4234,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateWithoutDropoffsInput = {
@@ -4211,6 +4243,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DropoffCreateManyUserInput = {

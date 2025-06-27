@@ -125,7 +125,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   twoFactorEnabled: 'twoFactorEnabled',
-  twoFactorSecret: 'twoFactorSecret'
+  twoFactorSecret: 'twoFactorSecret',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.DropoffScalarFieldEnum = {

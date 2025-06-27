@@ -20,6 +20,7 @@ model User {
   password         String
   twoFactorEnabled Boolean   @default(false)
   twoFactorSecret  String?
+  createdAt        DateTime  @default(now())
   dropoffs         Dropoff[]
 }
 
