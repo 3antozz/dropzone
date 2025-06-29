@@ -1,4 +1,6 @@
 import { signOut, auth } from "../../auth";
+import MapsLoader from "@/components/map/google-maps-loader";
+import DashboardMap from "@/components/map/dashboard-map";
 export default async function Dashboard() {
     const session = await auth();
     return (
@@ -12,6 +14,9 @@ export default async function Dashboard() {
                     >
                 <button type="submit">Sign Out</button>
             </form>
+            <MapsLoader>
+                <DashboardMap />
+            </MapsLoader>
         </section>
     );
 }

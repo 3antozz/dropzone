@@ -1,6 +1,6 @@
 import { auth } from "../../auth";
 import Link from "next/link";
-import TwoFaFormDisable from "@/components/2fa-disable";
+import TwoFaFormDisable from "@/components/forms/2fa-disable";
 import { SessionProvider } from "next-auth/react";
 export default async function Settings() {
     const session = await auth();

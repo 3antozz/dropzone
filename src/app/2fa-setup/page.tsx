@@ -1,7 +1,7 @@
 import { auth } from "../../auth";
 import { generateSecret, generateQRCode } from "@/lib/2fa";
 import Image from "next/image";
-import TwoFaForm from "@/components/2fa-form";
+import TwoFaForm from "@/components/forms/2fa-form";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 export default async function TwoFA() {
