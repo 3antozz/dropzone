@@ -23,12 +23,11 @@ export default function DropoffMap({markerPosition, setMarkerPosition} : {marker
                     setMarkerPosition(pos)
                     },
                     () => {
-                        console.log('ERRORRR')
+                        console.log('Error: The Geolocation service failed.')
                 }
         );
         } else {
-            // Browser doesn't support Geolocation
-            console.log('ERRORRR')
+            console.log("Error: Your browser doesn't support geolocation.")
         }
     }, [map, setMarkerPosition])
     const placeMarkerAndPanTo = (event: MapMouseEvent) =>  {
