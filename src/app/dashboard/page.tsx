@@ -1,8 +1,10 @@
 import { signOut, auth } from "../../auth";
 import MapsLoader from "@/components/map/google-maps-loader";
 import DashboardMap from "@/components/map/dashboard-map";
+import { fetchDropoffs } from "@/lib/data";
 export default async function Dashboard() {
     const session = await auth();
+    const dropoffs = await fetchDropoffs();
     return (
         <section>
             Dashboard
@@ -15,7 +17,7 @@ export default async function Dashboard() {
                 <button type="submit">Sign Out</button>
             </form>
             <MapsLoader>
-                <DashboardMap />
+                <DashboardMap dropoffs={dropoffs} />
             </MapsLoader>
         </section>
     );

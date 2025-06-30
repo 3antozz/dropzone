@@ -1,6 +1,6 @@
 'use server'
 import prisma from "./prismaClient";
-import { signUpSchema } from "./zod";
+import { signUpSchema, dropOffSchema } from "./zod";
 import { hash } from "bcryptjs";
 import { flattenError } from "zod/v4";
 import { State } from "./zod";
@@ -95,4 +95,41 @@ export const disable2FA = async () => {
         return { ok: false, error: "Unexpected error, please try again later." };
     }
     return { ok: true };
+}
+
+export const addDropoff = async (previousState: State, formData : FormData) => {
+    const session = await auth();
+    if(!session) {
+        return { message: "Unauthorized Operation" };
+    }
+    console.log(formData)
+    const validatedFields = await dropOffSchema.safeParseAsync(Object.fromEntries(formData));
+    if(!validatedFields.success) {
+        console.log(validatedFields.error)
+        return {
+            message: 'Invalid Fields. Failed to create dropoff.',
+            errors: flattenError(validatedFields.error).fieldErrors
+        }
+    }
+    const {title, description, lat, lng } = validatedFields.data;
+    try {
+        await prisma.dropoff.create({
+            data: {
+                User: {
+                    connect: {
+                        id: Number(session.user.id)
+                    }
+                },
+                title,
+                description,
+                latitude: lat,
+                longitude: lng
+            }
+        })
+    } catch {
+        return { message: "Unexpected error, please try again later." };
+    }
+    return {
+        message: 'Dropoff Created Successfully'
+    };
 }

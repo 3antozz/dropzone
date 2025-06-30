@@ -1,11 +1,10 @@
 import MapsLoader from "@/components/map/google-maps-loader";
-import DropoffMap from "@/components/map/dropoff-map";
-export default async function Dashboard() {
+import Form from "@/components/forms/create-dropoff-form";
+export default async function AddDropoff() {
     return (
         <section>
-            Add Dropoff
             <MapsLoader>
-                <DropoffMap />
+                <Form />
             </MapsLoader>
         </section>
     );

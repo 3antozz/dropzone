@@ -1,11 +1,10 @@
 'use client'
 import { Map, MapMouseEvent, useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
-import { useState, useEffect, useRef, useCallback} from 'react';
+import { useEffect, useRef, useCallback} from 'react';
 import Marker from './marker';
 
 
-export default function DropoffMap() {
-    const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(null)
+export default function DropoffMap({markerPosition, setMarkerPosition} : {markerPosition: google.maps.LatLngLiteral | null, setMarkerPosition: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral | null>>}) {
     const map = useMap();
     const placesLib = useMapsLibrary('places');
     const controlDivRef = useRef<HTMLDivElement>(null);
@@ -31,7 +30,7 @@ export default function DropoffMap() {
             // Browser doesn't support Geolocation
             console.log('ERRORRR')
         }
-    }, [map])
+    }, [map, setMarkerPosition])
     const placeMarkerAndPanTo = (event: MapMouseEvent) =>  {
         if(event.detail.latLng) {
             // map?.panTo(event.detail.latLng);
@@ -67,7 +66,7 @@ export default function DropoffMap() {
                 setMarkerPosition(place.location)
             });
         }
-    }, [map, placesLib])
+    }, [map, placesLib, setMarkerPosition])
     return (
         <Map
             className="w-[80%] h-140 mx-auto!"
@@ -81,7 +80,7 @@ export default function DropoffMap() {
             <Marker pos={markerPosition}/>
             }
             <div ref={controlDivRef} className='hidden'>
-                <button className="text-base! font-bold! text-center rounded-sm text-black m-[8px]! shadow-sm bg-white cursor-pointer px-5 py-2 border-1 border-amber-800 hover:bg-gray-300 transition-colors duration-150" onClick={panToLocation}>Current Location</button>
+                <button type='button' className="text-base! font-bold! text-center rounded-sm text-black m-[8px]! shadow-sm bg-white cursor-pointer px-5 py-2 border-1 border-amber-800 hover:bg-gray-300 transition-colors duration-150" onClick={panToLocation}>Current Location</button>
             </div>
             <div className="hidden shadow-sm rounded-sm text-lg font-bold p-1.5 bg-white m-[8px]!" ref={autocompleteDivRef}>
             </div>
