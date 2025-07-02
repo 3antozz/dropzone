@@ -22,7 +22,7 @@ export default function Form() {
                 <input type="password" name="password" placeholder="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             {state.message && <p>{state.message}</p>}
-            <button>{isPending ? 'Loading' : 'Login'}</button>
+            <button disabled={isPending}>{isPending ? 'Loading' : 'Login'}</button>
         </form>
     )
 }

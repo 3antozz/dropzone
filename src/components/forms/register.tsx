@@ -23,7 +23,7 @@ export default function Form() {
                 {state.errors?.confirm && <p>{state.errors.confirm}</p>}
             </div>
             {state.message && <p>{state.message}</p>}
-            <button>{isPending ? 'Loading' : 'Create Account'}</button>
+            <button disabled={isPending}>{isPending ? 'Loading' : 'Create Account'}</button>
         </form>
     )
 }

@@ -20,11 +20,11 @@ export default function Form() {
                 <input type="text" name="description" id="description" placeholder="Description" />
                 {state.errors?.description && <p>{state.errors.description}</p>}
             </div>
-            <input type="text" name="lat" value={markerPosition?.lat} />
-            <input type="text" name="lng" value={markerPosition?.lng} />
-            <DropoffMap markerPosition={markerPosition} setMarkerPosition={setMarkerPosition} />
+            <input type="text" name="lat" hidden value={markerPosition?.lat} />
+            <input type="text" name="lng" hidden value={markerPosition?.lng} />
+            <DropoffMap panToCurrentLocation={true} markerPosition={markerPosition} setMarkerPosition={setMarkerPosition} />
             {state.message && <p>{state.message}</p>}
-            <button>{isPending ? 'Loading' : 'Add Dropoff'}</button>
+            <button disabled={isPending}>{isPending ? 'Loading' : 'Add Dropoff'}</button>
         </form>
     )
 }

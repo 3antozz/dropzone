@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/protected/:path*", "/2fa-setup", "/2fa-login", "/login", "/register", "/settings"],
+  matcher: ["/dashboard/:path*", "/api/protected/:path*", "/2fa-setup", "/2fa-login", "/login", "/register", "/settings", "/edit/:path*"],
 }
 
 export async function middleware(req: NextRequest) {

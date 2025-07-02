@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import "./reset.css";
 import { signOut, auth } from "../auth";
+import Link from "next/link";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -31,6 +32,9 @@ export default async function RootLayout({
                     >
                 <button type="submit">Sign Out</button>
             </form>}
+            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/new">New</Link>
+            <Link href="/settings">Settings</Link>
             {children}
         </body>
         </html>

@@ -6,8 +6,8 @@ import { useContext, useRef, useEffect, useCallback } from 'react';
 import { Dropoff } from '../../../generated/prisma';
 import InfoWindowContent from './infoWindow';
 import { MapContext } from './context';
-
-export default function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
+function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
+    const { setClickedMarker } = useContext(MapContext)
     const map = useMap();
     const placesLib = useMapsLibrary('places');
     const controlDivRef = useRef<HTMLDivElement>(null);
@@ -68,7 +68,9 @@ export default function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
             defaultZoom={2}
             defaultCenter={ { lat: 27.43752386602214, lng: 10.79002834887643 } }
             disableDefaultUI={true}
-            mapTypeControl={true}>
+            mapTypeControl={true}
+            onClick={() => setClickedMarker(null)}
+            >
 
             <PoiMarkers pois={dropoffs} />
             <div ref={controlDivRef} className='hidden'>
@@ -81,13 +83,14 @@ export default function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
     )
 }
 
-const PoiMarkers = (props: {pois: Dropoff[]}) => {
+function PoiMarkers(props: {pois: Dropoff[]}) {
     const context = useContext(MapContext);
     const {markers, setMarkers, clickedMarker, setClickedMarker} = context;
     const map = useMap();
     const clusterer = useRef<MarkerClusterer | null>(null);
     const handleMarkerClick = useCallback(
-        (key: number, index: number) => {
+        (key: number, index?: number) => {
+            console.log(index)
             setClickedMarker(null);
             setTimeout(() => setClickedMarker(key), 0)
             // map?.panTo({lat: props.pois[index].latitude, lng: props.pois[index].longitude});
@@ -116,13 +119,34 @@ const PoiMarkers = (props: {pois: Dropoff[]}) => {
         if (!clusterer.current) {
             clusterer.current = new MarkerClusterer({map});
         }
-    }, [map]);
+    }, [map, props]);
     useEffect(() => {
         if(markers) {
             clusterer.current?.clearMarkers();
             clusterer.current?.addMarkers(Object.values(markers));
         }
-    }, [markers]);
+    }, [markers, props.pois]);
+
+    useEffect(() => {
+        // Remove markers that are no longer in the current pois
+        const currentIds = new Set(props.pois.map(p => p.id));
+        const markersToRemove = Object.keys(markers)
+            .map(Number)
+            .filter(id => !currentIds.has(id));
+        if (markersToRemove.length > 0) {
+            setMarkers(existing => {
+                const updated = { ...existing };
+                markersToRemove.forEach(id => {
+                    // Remove marker from clusterer if present
+                    if (updated[id]) {
+                        clusterer.current?.removeMarker(updated[id]);
+                    }
+                    delete updated[id];
+                });
+                return updated;
+            });
+        }
+    }, [props.pois, markers, setMarkers]);
   return (
     <>
         {props.pois.map( (poi: Dropoff, index) => (
@@ -146,3 +170,5 @@ const PoiMarkers = (props: {pois: Dropoff[]}) => {
     </>
   );
 };
+
+export default DashboardMap;

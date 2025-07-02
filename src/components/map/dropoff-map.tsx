@@ -1,14 +1,15 @@
 'use client'
 import { Map, MapMouseEvent, useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
-import { useEffect, useRef, useCallback} from 'react';
+import { useEffect, useRef, useCallback, useState} from 'react';
 import Marker from './marker';
 
 
-export default function DropoffMap({markerPosition, setMarkerPosition} : {markerPosition: google.maps.LatLngLiteral | null, setMarkerPosition: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral | null>>}) {
+function DropoffMap({markerPosition, setMarkerPosition, panToCurrentLocation = false} : {markerPosition: google.maps.LatLngLiteral | null, setMarkerPosition: React.Dispatch<React.SetStateAction<google.maps.LatLngLiteral | null>>, panToCurrentLocation?: boolean}) {
     const map = useMap();
     const placesLib = useMapsLibrary('places');
     const controlDivRef = useRef<HTMLDivElement>(null);
     const autocompleteDivRef = useRef<HTMLDivElement>(null);
+    const [firstLoad, setFirstLoad] = useState(false);
     const panToLocation = useCallback(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -41,8 +42,18 @@ export default function DropoffMap({markerPosition, setMarkerPosition} : {marker
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDivRef.current);
             controlDivRef.current.classList.add("block!"); 
         }
-        panToLocation();
-    }, [map, panToLocation])
+        if(panToCurrentLocation) {
+            panToLocation();
+        }
+    }, [map, panToCurrentLocation, panToLocation])
+
+    useEffect(() => {
+        if(map && markerPosition && !firstLoad) {
+            map?.panTo(markerPosition);
+            map?.setZoom(15);
+            setFirstLoad(true)
+        }
+    }, [firstLoad, map, markerPosition])
 
     useEffect(() => {
         if(map && placesLib && autocompleteDivRef.current) {
@@ -86,3 +97,5 @@ export default function DropoffMap({markerPosition, setMarkerPosition} : {marker
         </Map>
     )
 }
+
+export default DropoffMap;

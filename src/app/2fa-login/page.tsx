@@ -1,5 +1,5 @@
 import { auth } from "../../auth";
-import TwoFaForm from "@/components/forms/2fa-form";
+import TwoFaForm from "@/components/forms/2fa-verify";
 import { SessionProvider } from "next-auth/react";
 import { signOut } from "../../auth";
 export default async function TwoFA() {
