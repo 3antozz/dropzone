@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import "./reset.css";
-import { signOut, auth } from "../auth";
-import Link from "next/link";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -20,21 +18,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const session = await auth();
     return (
         <html lang="en">
-        <body className={`${roboto.variable} antialiased`}>
-            <p>{session?.user.email}</p>
-            {session?.user && <form action={async () => {
-                    "use server"
-                    await signOut()
-                    }}
-                    >
-                <button type="submit">Sign Out</button>
-            </form>}
-            <Link href="/dashboard">Dashboard</Link>
-            <Link href="/new">New</Link>
-            <Link href="/settings">Settings</Link>
+        <body className={`${roboto.variable} antialiased flex flex-col min-h-dvh`}>
             {children}
         </body>
         </html>

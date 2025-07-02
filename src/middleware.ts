@@ -9,7 +9,7 @@ export const config = {
 export async function middleware(req: NextRequest) {
   const session = await auth();
 
-  if (!session && req.nextUrl.pathname !== "/login") {
+  if (!session && (req.nextUrl.pathname !== "/login" && req.nextUrl.pathname !== "/register")) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

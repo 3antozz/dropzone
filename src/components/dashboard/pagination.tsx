@@ -14,9 +14,20 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         return `${pathname}?${params.toString()}`;
     };
     return (
-        <div>
+        <div className="flex flex-wrap gap-2">
             {pages.map(page =>
-                <Link key={page} href={createPageURL(page)} className={clsx(page === currentPage && "text-red-600")}>{page}</Link>
+                <Link
+                    key={page}
+                    href={createPageURL(page)}
+                    className={clsx(
+                        "px-3 py-1 rounded-md font-medium transition",
+                        page === currentPage
+                            ? "bg-amber-500 text-white shadow"
+                            : "bg-gray-100 text-gray-700 hover:bg-amber-100"
+                    )}
+                >
+                    {page}
+                </Link>
             )}
         </div>
     );

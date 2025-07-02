@@ -2,7 +2,7 @@
 import {AdvancedMarker, Map, Pin, useMap, useMapsLibrary, InfoWindow } from '@vis.gl/react-google-maps';
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import type {Marker} from '@googlemaps/markerclusterer';
-import { useContext, useRef, useEffect, useCallback } from 'react';
+import { useContext, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Dropoff } from '../../../generated/prisma';
 import InfoWindowContent from './infoWindow';
 import { MapContext } from './context';
@@ -44,7 +44,7 @@ function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
             //@ts-expect-error library not updated yet
             const placeAutocomplete = new placesLib.PlaceAutocompleteElement();
             autocompleteDivRef.current.appendChild(placeAutocomplete);
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(autocompleteDivRef.current);
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(autocompleteDivRef.current);
             autocompleteDivRef.current.classList.add("block!"); 
             //@ts-expect-error dunno what's the type of this prop (not documented)
             placeAutocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
@@ -63,7 +63,7 @@ function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
     return (
         <>
         <Map
-            className="w-220 h-140"
+            className="w-full max-w-3xl h-[36rem] rounded-xl shadow-lg border p-2 border-gray-200"
             mapId={process.env.NEXT_PUBLIC_MAP_ID}
             defaultZoom={2}
             defaultCenter={ { lat: 27.43752386602214, lng: 10.79002834887643 } }
@@ -74,9 +74,9 @@ function DashboardMap({dropoffs} : {dropoffs: Dropoff[]}) {
 
             <PoiMarkers pois={dropoffs} />
             <div ref={controlDivRef} className='hidden'>
-                <button className="text-base! font-bold! text-center rounded-sm text-black m-[8px]! shadow-sm bg-white cursor-pointer px-5 py-2 hover:bg-gray-300 transition-colors duration-150" onClick={panToLocation}>Current Location</button>
+                <button type='button' className="w-10! p-1 text-[13px]! lg:text-base! font-semibold! text-center rounded-full text-amber-900 m-2 shadow bg-white cursor-pointer border border-amber-800 hover:bg-gray-200 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-amber-400" onClick={panToLocation}><svg className='w-full' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Current Location</title><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z" /></svg></button>
             </div>
-            <div className="hidden shadow-sm rounded-sm text-lg font-bold p-1.5 bg-white m-[8px]!" ref={autocompleteDivRef}>
+            <div className="hidden shadow rounded-md text-lg font-semibold lg:p-1 bg-white m-2" ref={autocompleteDivRef}>
             </div>
         </Map>
         </>
@@ -87,6 +87,7 @@ function PoiMarkers(props: {pois: Dropoff[]}) {
     const context = useContext(MapContext);
     const {markers, setMarkers, clickedMarker, setClickedMarker} = context;
     const map = useMap();
+    const selectedDropoff = useMemo(() => props.pois.find(drop => drop.id == clickedMarker), [clickedMarker, props.pois])
     const clusterer = useRef<MarkerClusterer | null>(null);
     const handleMarkerClick = useCallback(
         (key: number, index?: number) => {
@@ -117,7 +118,12 @@ function PoiMarkers(props: {pois: Dropoff[]}) {
     useEffect(() => {
         if (!map) return;
         if (!clusterer.current) {
-            clusterer.current = new MarkerClusterer({map});
+            clusterer.current = new MarkerClusterer({
+                map,
+                algorithmOptions: {
+                    maxZoom: 12
+                }
+            });
         }
     }, [map, props]);
     useEffect(() => {
@@ -162,9 +168,9 @@ function PoiMarkers(props: {pois: Dropoff[]}) {
                 </Pin>
             </AdvancedMarker>
         ))}
-        {clickedMarker && markers[clickedMarker] && (
+        {clickedMarker && markers[clickedMarker] && selectedDropoff && (
             <InfoWindow anchor={markers[clickedMarker]} onClose={handleClose} className="text-black">
-                <InfoWindowContent title='title' description='descrption' createdAt={new Date().toDateString()} />
+                <InfoWindowContent title={selectedDropoff.title} description={selectedDropoff.description || ""} createdAt={new Date(selectedDropoff.createdAt).toDateString()} />
             </InfoWindow>
         )}
     </>

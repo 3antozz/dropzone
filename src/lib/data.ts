@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 
 export const fetchDropoffs = async(query: string, currentPage: number) => {
     const session = await auth();
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 5;
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
     if(!session) {
         throw new Error('Unauthorized Access')
@@ -60,13 +60,12 @@ export const fetchOneDropoff = async(id: string) => {
         return dropoff;
     } catch(err) {
         console.log(err)
-        throw new Error('Unexpected Error')
     }
 }
 
 export const fetchPagesCount = async(query: string) => {
     const session = await auth();
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 5;
     if(!session) {
         throw new Error('Unauthorized Access')
     }

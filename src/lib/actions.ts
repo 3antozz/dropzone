@@ -3,18 +3,19 @@ import prisma from "./prismaClient";
 import { signUpSchema, dropOffSchema, changeCredentialsSchema } from "./zod";
 import { hash, compare } from "bcryptjs";
 import { flattenError } from "zod/v4";
-import { State } from "./zod";
+import { FormState, LoginFormState } from "@/lib/definitions";
 import { signIn } from "../auth";
 import { auth } from "../auth";
-import { revalidatePath } from "next/cache";
+import { DeleteDropoffFormState } from "@/lib/definitions";
 
 
-export const createUser =  async(previousState: State, formData: FormData) => {
+export const createUser =  async(previousState: FormState, formData: FormData) => {
     const validatedFields = await signUpSchema.safeParseAsync(Object.fromEntries(formData));
     if(!validatedFields.success) {
         return {
             message: 'Invalid Fields. Failed to register.',
-            errors: flattenError(validatedFields.error).fieldErrors
+            errors: flattenError(validatedFields.error).fieldErrors,
+            ok: false
         }
     }
     const { email, password } = validatedFields.data;
@@ -25,7 +26,8 @@ export const createUser =  async(previousState: State, formData: FormData) => {
     })
     if(existingUser) {
         return {
-            message: 'An account already exists with this email'
+            message: 'An account already exists with this email',
+            ok: false
         };
     }
     try {
@@ -39,15 +41,17 @@ export const createUser =  async(previousState: State, formData: FormData) => {
     } catch(err) {
         console.log(err)
         return {
-            message: 'Database Error: Failed to register.'
+            message: 'Database Error: Failed to register.',
+            ok: false
         };
     }
     return {
-        message: 'User registered Successfully'
+        message: 'User registered successfully. You can login now',
+        ok: true
     };
 }
 
-export const authenticate = async(previousState: State, formData: FormData) => {
+export const authenticate = async(previousState: LoginFormState, formData: FormData) => {
     const email = formData.get("email");
     const password = formData.get("password");
     try {
@@ -98,17 +102,21 @@ export const disable2FA = async () => {
     return { ok: true };
 }
 
-export const addDropoff = async (previousState: State, formData : FormData) => {
+export const addDropoff = async (previousState: FormState, formData : FormData) => {
     const session = await auth();
     if(!session) {
-        return { message: "Unauthorized Operation" };
+        return { 
+            message: "Unauthorized Operation",
+            ok: false
+         };
     }
     const validatedFields = await dropOffSchema.safeParseAsync(Object.fromEntries(formData));
     if(!validatedFields.success) {
         console.log(validatedFields.error)
         return {
             message: 'Invalid Fields. Failed to create dropoff.',
-            errors: flattenError(validatedFields.error).fieldErrors
+            errors: flattenError(validatedFields.error).fieldErrors,
+            ok: false
         }
     }
     const {title, description, lat, lng } = validatedFields.data;
@@ -127,24 +135,32 @@ export const addDropoff = async (previousState: State, formData : FormData) => {
             }
         })
     } catch {
-        return { message: "Unexpected error, please try again later." };
+        return { 
+            message: "Unexpected error, please try again later.",
+            ok: false
+        };
     }
     return {
-        message: 'Dropoff Created Successfully'
+        message: 'Dropoff Created Successfully',
+        ok: true
     };
 }
 
-export const editDropoff = async (previousState: State, formData : FormData) => {
+export const editDropoff = async (previousState: FormState, formData : FormData) => {
     const session = await auth();
     if(!session) {
-        return { message: "Unauthorized Operation" };
+        return { 
+            message: "Unauthorized Operation",
+            ok: false
+        };
     }
     const validatedFields = await dropOffSchema.safeParseAsync(Object.fromEntries(formData));
     if(!validatedFields.success) {
         console.log(validatedFields.error)
         return {
             message: 'Invalid Fields. Failed to create dropoff.',
-            errors: flattenError(validatedFields.error).fieldErrors
+            errors: flattenError(validatedFields.error).fieldErrors,
+            ok: false
         }
     }
     const {title, description, lat, lng, id } = validatedFields.data;
@@ -161,19 +177,23 @@ export const editDropoff = async (previousState: State, formData : FormData) => 
             }
         })
     } catch {
-        return { message: "Unexpected error, please try again later." };
+        return { 
+            message: "Unexpected error, please try again later.",
+            ok: false
+        };
     }
     return {
-        message: 'Dropoff Updated Successfully'
+        message: 'Dropoff Updated Successfully',
+        ok: true
     };
 }
 
-export const deleteDropoff = async (previousState: State, formData : FormData) => {
+export const deleteDropoff = async (previousState: DeleteDropoffFormState, formData : FormData) => {
     const session = await auth();
     if(!session) {
         return { 
             message: "Unauthorized Operation",
-            error: 'Error'
+            ok: false
         };
     }
     const id = formData.get('id');
@@ -187,26 +207,30 @@ export const deleteDropoff = async (previousState: State, formData : FormData) =
     } catch {
         return { 
             message: "Unexpected error, please try again later.", 
-            error: 'Error'
+            ok: false
         };
     }
-    revalidatePath('/dashboard')
     return {
         message: 'Dropoff Deleted Successfully',
+        ok: true
     };
 }
 
-export const changeCredentials =  async(previousState: State, formData: FormData) => {
+export const changeCredentials =  async(previousState: FormState, formData: FormData) => {
     const session = await auth();
     if(!session) {
-        return { message: "Unauthorized Operation" };
+        return { 
+            message: "Unauthorized Operation",
+            ok: false
+        };
     }
     console.log(formData)
     const validatedFields = await changeCredentialsSchema.safeParseAsync(Object.fromEntries(formData));
     if(!validatedFields.success) {
         return {
             message: 'Invalid Fields. Failed to update.',
-            errors: flattenError(validatedFields.error).fieldErrors
+            errors: flattenError(validatedFields.error).fieldErrors,
+            ok: false
         }
     }
     const { email, password, oldPassword } = validatedFields.data;
@@ -217,14 +241,19 @@ export const changeCredentials =  async(previousState: State, formData: FormData
     })
     if(!existingUser) {
         return {
-            message: "User doesn't exist"
+            message: "User doesn't exist",
+            ok: false
         };
     }
     console.log(oldPassword);
     const checkPW = await compare(oldPassword, existingUser.password)
     if(!checkPW) {
         return {
-            message: "Password Incorrect"
+            message: "Invalid Fields. Failed to update.",
+            errors: {
+                oldPassword: ['Incorrect Password']
+            },
+            ok: false
         };
     }
     try {
@@ -241,12 +270,13 @@ export const changeCredentials =  async(previousState: State, formData: FormData
     } catch(err) {
         console.log(err)
         return {
-            message: 'Database Error: Failed to register.'
+            message: 'Database Error: Failed to register.',
+            ok: false
         };
     }
     return {
-        message: 'User registered Successfully',
-        redirectTo: "/settings?credsupdate=true"
+        message: 'Credentials updated successfully!',
+        ok: true
     };
 }
 

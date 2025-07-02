@@ -9,6 +9,7 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
     const router = useRouter();
     const { update } = useSession();
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const [isPending, setPending] = useState(false)
     const handleChange = (e: InputEvent, index: number) => {
         e.preventDefault();
         let value = e.nativeEvent.data;
@@ -59,30 +60,37 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         let res;
+        setPending(true)
         const token = otp.join('')
-        if(!login) {
-            res = await fetch("/api/2fa/verify", {
-                method: "POST",
-                body: JSON.stringify({userId, token, secret }),
-                headers: { "Content-Type": "application/json" },
-            });
-        } else {
-            res = await fetch("/api/2fa/verify", {
-                method: "POST",
-                body: JSON.stringify({ userId, token }),
-                headers: { "Content-Type": "application/json" },
-            });
-        }
-        const data = await res.json();
-        if (!data.ok) {
-            setError("Invalid token");
-        } else {
-            await update({refreshSession: true});
-            router.push("/dashboard");
+        try{
+            if(!login) {
+                res = await fetch("/api/2fa/verify", {
+                    method: "POST",
+                    body: JSON.stringify({userId, token, secret }),
+                    headers: { "Content-Type": "application/json" },
+                });
+            } else {
+                res = await fetch("/api/2fa/verify", {
+                    method: "POST",
+                    body: JSON.stringify({ userId, token }),
+                    headers: { "Content-Type": "application/json" },
+                });
+            }
+            const data = await res.json();
+            if (!data.ok) {
+                setError("Invalid token");
+            } else {
+                await update({refreshSession: true});
+                router.push("/dashboard");
+            }
+        } catch {
+            setError('Something Went Wrong. Try again later!');
+        } finally {
+            setPending(false)
         }
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex gap-2 justify-center">
                 {otp.map((digit, index) => 
                 <input 
@@ -95,11 +103,17 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
                     onPaste={handlePaste}
                     onChange={() => {}}
                     value={digit}
-                    className="bg-amber-50 text-black rounded-md aspect-square w-20 text-5xl! text-center"
+                    className="bg-amber-50 text-black rounded-md aspect-square w-1/6 sm:w-14 text-3xl! text-center border border-amber-200 focus:border-amber-500 focus:ring-amber-200 focus:ring-2 outline-none transition"
                 />)}
             </div>
-            <button>Submit</button>
-            {error && <p>{error}</p>}
+            <button
+                type="submit"
+                disabled={isPending}
+                className="w-full text-lg! px-4 py-2 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition cursor-pointer"
+            >
+                {isPending ? 'Loading' : 'Submit'}
+            </button>
+            {error && <p className="text-md bg-red-100 text-red-900 py-2 text-center">{error}</p>}
         </form>
     )
 }

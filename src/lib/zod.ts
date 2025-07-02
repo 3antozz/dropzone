@@ -1,11 +1,5 @@
 import * as z from "zod/v4"; 
 
-export type State = {
-    message: string,
-    errors?: Record<string, string[]>; 
-    redirectTo?: string
-}
-
 export const signUpSchema = z.object({
     email: z.email("Invalid email").trim(),
     password: z.string().trim()
@@ -27,7 +21,7 @@ export const dropOffSchema = z.object({
     id: z.optional(z.string()),
     title: z.string().trim()
         .min(3, "Title must be atleast 3 characters"),
-    description: z.optional(z.string().trim()),
+    description: z.optional(z.string().max(200, "Description must be less than 200 characters").trim()),
     lat: z.coerce.number("Location coordinate must be a number"),
     lng: z.coerce.number("Location coordinate must be a number"),
 })
