@@ -17,7 +17,7 @@ A modern web app to **track, organize, and remember every location where you dro
 ![Dropoff Creation](./public//showcase/create-dropoff.png)
 
 
-# [Live Preview]()
+# [Live Preview](https://dropzone-delta.vercel.app/)
 
 > [!NOTE]
 > App is hosted with free tier services, first load might take some time.
