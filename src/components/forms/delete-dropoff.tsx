@@ -14,7 +14,7 @@ export default function DeleteForm({dropoff, showPopup} : {dropoff: Dropoff, sho
     }, [showPopup, state]);
     useEffect(() => {
         if (state.ok) {
-            setTimeout(() => router.refresh(), 2500)
+            setTimeout(() => router.refresh(), 1500)
         }
     }, [router, state]);
     return (

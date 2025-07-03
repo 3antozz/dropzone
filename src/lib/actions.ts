@@ -7,6 +7,7 @@ import { FormState, LoginFormState } from "@/lib/definitions";
 import { signIn } from "../auth";
 import { auth } from "../auth";
 import { DeleteDropoffFormState } from "@/lib/definitions";
+import { revalidatePath } from "next/cache";
 
 
 export const createUser =  async(previousState: FormState, formData: FormData) => {
@@ -140,6 +141,7 @@ export const addDropoff = async (previousState: FormState, formData : FormData) 
             ok: false
         };
     }
+    revalidatePath("/dashboard")
     return {
         message: 'Dropoff Created Successfully',
         ok: true
@@ -182,6 +184,7 @@ export const editDropoff = async (previousState: FormState, formData : FormData)
             ok: false
         };
     }
+    revalidatePath("/dashboard")
     return {
         message: 'Dropoff Updated Successfully',
         ok: true

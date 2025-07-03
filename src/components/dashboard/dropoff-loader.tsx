@@ -3,6 +3,7 @@ import type { Dropoff } from "../../../generated/prisma";
 import Pagination from "./pagination";
 import { fetchPagesCount } from "@/lib/data";
 import Link from "next/link";
+import clsx from "clsx";
 
 export default async function DropoffLoader({
   dropoffs,
@@ -32,8 +33,8 @@ export default async function DropoffLoader({
                     </div>
                 </div>
             ):
-                <div className="">
-                    <p className="text-center font-semibold">Add you first dropoff</p>
+                <div className={clsx(dropoffs.length > 0 && "mt-auto!")}>
+                    {dropoffs.length === 0 && <p className="text-center font-semibold">Add you first dropoff</p>}
                     <Link
                         href="/new"
                         className="w-full block mx-auto! mt-4 text-center mb-4 px-4 py-1.5 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition"
