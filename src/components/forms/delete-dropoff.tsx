@@ -23,6 +23,7 @@ export default function DeleteForm({dropoff, showPopup} : {dropoff: Dropoff, sho
             <input type="text" hidden name="id" defaultValue={dropoff.id} />
             <button
                 disabled={isPending}
+                type="submit"
                 className="w-full px-4 py-2 text-sm text-gray-700 text-left cursor-pointer"
             >
                 {isPending

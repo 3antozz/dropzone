@@ -58,6 +58,7 @@ export default function Form({dropoff} : {dropoff: Dropoff}) {
             </div>
             <button
                 disabled={isPending}
+                type="submit"
                 className="w-full px-4 py-2 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition disabled:opacity-60"
             >
                 {isPending ? 'Loading...' : 'Edit Dropoff'}

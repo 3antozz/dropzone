@@ -42,6 +42,7 @@ export default function Form() {
             {state.message && <p className="text-md bg-red-100 text-red-900 py-2 text-center">{state.message}</p>}
             <button
                 disabled={isPending}
+                type="submit"
                 className="w-full px-4 py-2 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition disabled:opacity-60 cursor-pointer"
             >
                 {isPending ? 'Loading...' : 'Login'}

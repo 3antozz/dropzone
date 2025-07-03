@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DropZone
 
-## Getting Started
+A modern web app to **track, organize, and remember every location where you drop packages or items**.  
 
-First, run the development server:
+![Interface](./public//showcase/interface.png)
+
+## Landing page
+
+![Landing page](./public//showcase/landing.png)
+
+## 2FA Setup
+
+![2FA Setup](./public//showcase/2fa-setup.png)
+
+## Dropoff Creation
+
+![Dropoff Creation](./public//showcase/create-dropoff.png)
+
+
+# [Live Preview]()
+
+> [!NOTE]
+> App is hosted with free tier services, first load might take some time.
+
+## Why build this project ?
+
+DropZone was created as a full-stack practice project to explore real-world implementations of Two-Factor Authentication (2FA) and Google Maps API integration.
+
+## Features
+
+- Secure login with optional Two-Factor Authentication (2FA).
+- Visualize all your dropoffs on an interactive map.
+- Search, edit, and manage your dropoff entries.
+
+## Technologies Used
+
+### Frontend
+
+- Nextjs
+- TailwindCSS
+- Google maps API
+
+### Backend
+
+- PostgreSQL
+- Prisma ORM
+- NextAuth
+- Zod
+- Vercel
+
+## 🛠️ How to Run the Project Locally
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [PostgreSQL](https://www.postgresql.org/) (ensure your database is running)
+- Basic knowledge of using a terminal (steps are beginner-friendly)
+
+---
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git https://github.com/3antozz/dropzone
+cd dropzone
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Setup the server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd api
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**1- Create a .env file in the node/ directory (based on .env.example) and fill in the required environment variables such as:** 
 
-## Learn More
+> [!NOTE]
+> This app uses google map javascript API, if you want to test this feature locally you should acquire your own google maps API key.
 
-To learn more about Next.js, take a look at the following resources:
+* Database connection URL
+* Google maps KEY & map ID
+* Auth secret
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2- Start the server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm start
+```
+> [!NOTE]
+> The server will run on http://localhost:3000 by default.
 
-## Deploy on Vercel
+### 3. Open in Browser
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1- Once the server is running:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2- Visit http://localhost:3000 in your browser
+
+## Libraries Used
+
+
+### Frontend
+
+- [tailwindcss](https://www.npmjs.com/package/tailwindcss) – A utility-first CSS framework.
+- [@vis.gl/react-google-maps](https://www.npmjs.com/package/@vis.gl/react-google-maps) – A TypeScript library to integrate the Maps JavaScript API into a React application.
+- [@googlemaps/markerclusterer](https://www.npmjs.com/package/@googlemaps/markerclusterer) – The library creates and manages per-zoom-level clusters for large amounts of markers.
+- [use-debounce](https://www.npmjs.com/package/use-debounce) – Debounce functions - used in search query.
+- [clsx](https://www.npmjs.com/package/clsx) – utility for constructing className strings conditionally.
+
+
+### Backend
+
+- [next-auth](https://www.npmjs.com/package/next-auth) – Authentication for Next.js.
+- [otplib](https://www.npmjs.com/package/otplib) – Time-based (TOTP) and HMAC-based (HOTP) One-Time Password library.
+- [qrcode](https://www.npmjs.com/package/qrcode) – QR Code generator.
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs) – For securing passwords by hashing and salting.
+- [prisma/client](https://www.npmjs.com/package/@prisma/client) – ORM - Auto-generated and type-safe query builder for Node.js.
+- [zod](https://www.npmjs.com/package/zod) – TypeScript-first schema validation with static type inference
