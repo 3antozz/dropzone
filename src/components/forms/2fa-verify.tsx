@@ -81,7 +81,7 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
                 setError("Invalid token");
             } else {
                 await update({refreshSession: true});
-                router.push("/dashboard");
+                router.refresh();
             }
         } catch {
             setError('Something Went Wrong. Try again later!');

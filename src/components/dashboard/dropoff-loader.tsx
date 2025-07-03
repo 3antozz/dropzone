@@ -19,7 +19,7 @@ export default async function DropoffLoader({
                     <DropoffElement key={dropoff.id} dropoff={dropoff} />
                 )}
             </ul>
-            {totalPages > 1 && (
+            {totalPages > 1 ? (
                 <div className="mt-auto">
                     <Link
                         href="/new"
@@ -31,7 +31,17 @@ export default async function DropoffLoader({
                         <Pagination totalPages={totalPages}/>
                     </div>
                 </div>
-            )}
+            ):
+                <div className="">
+                    <p className="text-center font-semibold">Add you first dropoff</p>
+                    <Link
+                        href="/new"
+                        className="w-full block mx-auto! mt-4 text-center mb-4 px-4 py-1.5 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition"
+                    >
+                        New Dropoff
+                    </Link>
+                </div>
+        }
         </>
     );
 }
