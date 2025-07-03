@@ -28,8 +28,9 @@ DropZone was created as a full-stack practice project to explore real-world impl
 
 ## Features
 
-- Secure login with optional Two-Factor Authentication (2FA).
-- Visualize all your dropoffs on an interactive map.
+- Secure Credentials login with NextAuth & optional Two-Factor Authentication (2FA).
+- Google Maps API integration to visualize all your dropoffs on an interactive map.
+- Location search autocomplete, current location with Geolocation API, Marker clustering for better visualization.
 - Search, edit, and manage your dropoff entries.
 
 ## Technologies Used
@@ -47,6 +48,7 @@ DropZone was created as a full-stack practice project to explore real-world impl
 - NextAuth
 - Zod
 - Vercel
+- Neon
 
 ## 🛠️ How to Run the Project Locally
 
