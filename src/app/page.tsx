@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-100 flex flex-col">
+    <main className="min-h-screen mx-0! bg-gradient-to-br from-amber-50 via-white to-amber-100 flex flex-col">
 
       <section className="flex flex-col-reverse md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-20 gap-12">
         <div className="flex-1">

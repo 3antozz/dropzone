@@ -25,7 +25,7 @@ export default async function Header() {
             </div>
             <div className="flex items-center gap-4">
                 {session?.user && (
-                    <span className="text-sm text-gray-500">{username}</span>
+                    <span className="text-sm text-gray-400">{username}</span>
                 )}
                 {session?.user ? (
                     <form

@@ -34,7 +34,7 @@ export default async function DropoffLoader({
                 </div>
             ):
                 <div className={clsx(dropoffs.length > 0 && "mt-auto!")}>
-                    {dropoffs.length === 0 && <p className="text-center font-semibold">Add you first dropoff</p>}
+                    {dropoffs.length === 0 && <p className="text-center font-semibold">Add your first dropoff!</p>}
                     <Link
                         href="/new"
                         className="w-full block mx-auto! mt-4 text-center mb-4 px-4 py-1.5 rounded-md bg-amber-500 text-white font-semibold shadow hover:bg-amber-600 transition"
