@@ -1,12 +1,10 @@
 'use client'
 import { FormEvent, useState, useRef, KeyboardEvent, InputEvent, ClipboardEvent } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export default function TwoFaForm({userId, secret, login = false} : {login?: boolean, userId: number, secret?: string}) {
     const [otp, setOTP] = useState(Array(6).fill(''));
     const [error, setError] = useState("");
-    const router = useRouter();
     const { update } = useSession();
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const [isPending, setPending] = useState(false)
@@ -81,7 +79,7 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
                 setError("Invalid token");
             } else {
                 await update({refreshSession: true});
-                router.refresh();
+                window.location.replace("dashboard")
             }
         } catch {
             setError('Something Went Wrong. Try again later!');

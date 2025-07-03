@@ -2,16 +2,14 @@
 import { authenticate } from "@/lib/actions";
 import { useActionState, useState } from "react";
 import { LoginFormState } from "@/lib/definitions";
-import { useRouter } from "next/navigation";
 
 export default function Form() {
-    const router = useRouter()
     const initialState: LoginFormState = { message: "" };
     const [state, formAction, isPending] = useActionState(authenticate, initialState);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     if(state?.redirectTo) {
-        router.replace(state.redirectTo)
+        window.location.replace(state.redirectTo)
     }
     return (
         <form action={formAction} className="space-y-6!">
