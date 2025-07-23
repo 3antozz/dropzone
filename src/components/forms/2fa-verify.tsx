@@ -2,7 +2,7 @@
 import { FormEvent, useState, useRef, KeyboardEvent, InputEvent, ClipboardEvent } from "react";
 import { useSession } from "next-auth/react";
 
-export default function TwoFaForm({userId, secret, login = false} : {login?: boolean, userId: number, secret?: string}) {
+export default function TwoFaForm({userId, secret, login = false} : {login?: boolean, userId?: number, secret?: string}) {
     const [otp, setOTP] = useState(Array(6).fill(''));
     const [error, setError] = useState("");
     const { update } = useSession();
@@ -70,7 +70,7 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
             } else {
                 res = await fetch("/api/2fa/verify", {
                     method: "POST",
-                    body: JSON.stringify({ userId, token }),
+                    body: JSON.stringify({ token }),
                     headers: { "Content-Type": "application/json" },
                 });
             }
@@ -78,8 +78,11 @@ export default function TwoFaForm({userId, secret, login = false} : {login?: boo
             if (!data.ok) {
                 setError("Invalid token");
             } else {
-                await update({refreshSession: true});
-                window.location.replace("dashboard")
+                if(!login) {
+                    await update({refreshSession: true});
+                }
+                setTimeout(() => window.location.replace("dashboard"), 300)
+                // window.location.replace("dashboard")
             }
         } catch {
             setError('Something Went Wrong. Try again later!');

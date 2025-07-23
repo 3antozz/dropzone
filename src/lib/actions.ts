@@ -57,18 +57,16 @@ export const authenticate = async(previousState: LoginFormState, formData: FormD
     const password = formData.get("password");
     try {
         await signIn("credentials", {redirect: false, email, password});
-    } catch {
+    } catch(err) {
+        const errorWithCause = err as { cause?: { err?: { message?: string } } };
+        if(errorWithCause.cause?.err?.message === '2FA_REQUIRED') {
+            return { message: "", redirectTo: "/2fa-login" };
+        }
         return {
             message: "Invalid credentials",
         };
     }
     const session = await auth();
-    if(session?.user?.twoFactorPending) {
-        return {
-            message: "",
-            redirectTo: "/2fa-login"
-        };
-    }
     if(!session?.user?.twoFA) {
         return {
             message: "",

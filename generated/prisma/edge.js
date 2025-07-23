@@ -151,8 +151,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "debian-openssl-1.1.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-1.1.x"
       }
     ],
     "previewFeatures": [],
@@ -170,6 +174,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -178,8 +183,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id               Int       @id @default(autoincrement())\n  email            String    @unique\n  password         String\n  twoFactorEnabled Boolean   @default(false)\n  twoFactorSecret  String?\n  createdAt        DateTime  @default(now())\n  dropoffs         Dropoff[]\n}\n\nmodel Dropoff {\n  id          Int      @id @default(autoincrement())\n  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  userId      Int\n  latitude    Float\n  longitude   Float\n  title       String\n  description String?\n  createdAt   DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "a05aff42f76228643889bbadb469cbf9247fb04b093ce714cf179040bbe39ff2",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"debian-openssl-1.1.x\"]\n  output        = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id               Int       @id @default(autoincrement())\n  email            String    @unique\n  password         String\n  twoFactorEnabled Boolean   @default(false)\n  twoFactorSecret  String?\n  createdAt        DateTime  @default(now())\n  dropoffs         Dropoff[]\n}\n\nmodel Dropoff {\n  id          Int      @id @default(autoincrement())\n  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  userId      Int\n  latitude    Float\n  longitude   Float\n  title       String\n  description String?\n  createdAt   DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "30e58fff5b4f931727edd29d3f88280e0f909b7edaf0064db714b307128b7a07",
   "copyEngine": true
 }
 config.dirname = '/'
